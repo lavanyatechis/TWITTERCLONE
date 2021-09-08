@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<section class="content">
+   <div class = "main">
+   <div class="main-header">
+        <img src="/static/img/techis-logo.png" class="logo">
+        <h1>Home</h1>
+    </div>
+    </div>
+   <section class="post_form">
+   {% comment %} <div class = "main">
+   <div class="main-header">
+        <img src="/static/img/techis-logo.png" class="logo">
+        <h1>Home</h1>
+    </div>
+    </div> {% endcomment %}
+   <form action="/" method="POST" enctype='multipart/form-data'>
+      {% csrf_token %}
+    <input type="text" name="name" placeholder="Name" required />
+    <textarea name="body" placeholder="Tell us anything" required></textarea>
+    {% comment %} <input type="submit" value="Tweet"/> {% endcomment %}
+    <div class="bottom-area">
+         <div class="mb-0">
+            <input class="form-control form-control-sm" name="image" type="file">
+          </div>
+          <button class="btn" type="submit">Tweet</button>
+    </div>
+   </form>
+  </section>
+
+  <section class = "posts">
+    <ul>
+    {% for post in posts %}
+    <li>
+       <img class ="menu_icon js-menu-icon" src="{% static 'img/menu.png' %}" />
+       <div class ="menu">
+        <a href="/delete/{{ post.id }}/">Delete</a>
+         <a href="/edit/{{ post.id }}/">Edit</a> 
+        
+       </div>
+      <div class ="logo">
+        <img src="{% static 'img/sample-icon.jpeg' %}" />
+      </div>
+     <div class="name_body">
+     <div class="name">{{ post.name }}</div>
+     <div class="datetime">{{ post.created_at  }}</div>
+     <p>{{ post.body }}</p>
+     <img src= "{{ post.image.url}}" style="width:300px">
+     {% comment %} <form action="{% url 'posts:like-post' %}" method ='POST'> {% endcomment %}
+
+     {% comment %} <a href="/edit/{{ post.id }}/">Edit</a> {% endcomment %}
+     <div class="icon">
+        <div class="like js-like" data-tweet-id="62">
+        <a href="/like/{{ post.id }}/"><img src="/static/img/icon-heart-twitterblue.svg"></a> 
+              
+                </div>
+                    <div class="like-count js-like-count">{{ post.like}}</div>
+                    </div>
+    
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+{% comment %} <script src="{ %static 'js/posts.js' %}"></script> {% endcomment %}
+<script>
+$(function() {
+  $('.js-menu-icon').click(function() {
+      $(this).next().toggle();
+  })
+ 
+})
+</script>
+</section>
+{% endblock %}
